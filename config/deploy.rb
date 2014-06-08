@@ -8,8 +8,8 @@ set :repo_url, 'git@github.com:jegtnes/favpurge.git'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/ajms/webapps/favpurge/app'
-set :app_root, '/home/ajms/webapps/favpurge'
+set :deploy_to, '/home/ajms/webapps/aj_favpurge/app'
+set :app_root, '/home/ajms/webapps/aj_favpurge'
 set :host_root, '/home/ajms'
 set :tmp_dir, "#{fetch(:host_root)}/tmp"
 
