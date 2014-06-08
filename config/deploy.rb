@@ -9,8 +9,9 @@ set :repo_url, 'git@github.com:jegtnes/favpurge.git'
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/home/ajms/webapps/favpurge/app'
-
 set :app_root, '/home/ajms/webapps/favpurge'
+set :host_root, '/home/ajms'
+set :tmp_dir, "#{fetch(:host_root)}/tmp"
 
 set :user, 'ajms'
 set :scm_username, 'jegtnes'
@@ -47,7 +48,7 @@ namespace :deploy do
       namespace :deploy do
         desc 'Restart nginx'
         task :restart do
-          run "#{app_root}/bin/restart"
+          run "#{fetch(:app_root)}/bin/restart"
         end
       end
     end
