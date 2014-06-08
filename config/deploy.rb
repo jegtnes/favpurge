@@ -48,7 +48,7 @@ namespace :deploy do
       namespace :deploy do
         desc 'Restart nginx'
         task :restart do
-          run "#{app_root}/bin/restart"
+          execute "#{app_root}/bin/restart"
         end
       end
     end
