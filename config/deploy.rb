@@ -1,15 +1,20 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'my_app_name'
-set :repo_url, 'git@example.com:me/my_repo.git'
+set :application, 'favpurge'
+set :repo_url, 'git@github.com:jegtnes/favpurge.git'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 # Default deploy_to directory is /var/www/my_app
-# set :deploy_to, '/var/www/my_app'
+set :deploy_to, '/home/ajms/webapps/favpurge/app'
 
+set :app_root, '/home/ajms/webapps/favpurge'
+
+set :user, 'ajms'
+set :scm_username, 'jegtnes'
+set :use_sudo, false
 # Default value for :scm is :git
 # set :scm, :git
 
@@ -20,7 +25,7 @@ set :repo_url, 'git@example.com:me/my_repo.git'
 # set :log_level, :debug
 
 # Default value for :pty is false
-# set :pty, true
+set :pty, true
 
 # Default value for :linked_files is []
 # set :linked_files, %w{config/database.yml}
@@ -39,8 +44,12 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      # Your restart mechanism here, for example:
-      # execute :touch, release_path.join('tmp/restart.txt')
+      namespace :deploy do
+        desc 'Restart nginx'
+        task :restart do
+          run "#{app_root}/bin/restart"
+        end
+      end
     end
   end
 
