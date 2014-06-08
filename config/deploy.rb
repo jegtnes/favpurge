@@ -45,7 +45,7 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "#{app_root}/bin/restart"
+      execute "#{fetch(:app_root)}/bin/restart"
     end
   end
 
