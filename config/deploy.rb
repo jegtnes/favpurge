@@ -45,12 +45,7 @@ namespace :deploy do
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      namespace :deploy do
-        desc 'Restart nginx'
-        task :restart do
-          execute "#{app_root}/bin/restart"
-        end
-      end
+      execute "#{app_root}/bin/restart"
     end
   end
 
