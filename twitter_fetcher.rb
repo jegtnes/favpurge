@@ -11,7 +11,7 @@ Dotenv.load
 class TwitterFetcher < Sinatra::Base
   helpers Sinatra::Jsonp
 
-  @@twitter_client = Twitter::Client.new(
+  twitter_client = Twitter::REST::Client.new(
     consumer_key:       ENV['CONSUMER_KEY'],
     consumer_secret:    ENV['CONSUMER_SECRET'],
     oauth_token:        ENV['OAUTH_TOKEN'],
@@ -19,6 +19,11 @@ class TwitterFetcher < Sinatra::Base
   )
 
   get '/' do
-    @@twitter_client.favorites('jegtnes', count: 100)
+    output = ''
+    favs = twitter_client.favorites('jegtnes', count: 100)
+    favs.each do |fav|
+      output << fav.text
+    end
+    return output
   end
 end
