@@ -4,12 +4,21 @@ require 'sinatra/jsonp'
 require 'rubygems'
 require 'dotenv'
 require 'twitter'
+require 'omniauth-twitter'
 
 Dotenv.load
 
 # Fetch tweets, yo.
 class TwitterFetcher < Sinatra::Base
   helpers Sinatra::Jsonp
+
+  use OmniAuth::Builder do
+    provider :twitter, ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET']
+  end
+
+  configure do
+    enable :sessions
+  end
 
   twitter_client = Twitter::REST::Client.new(
     consumer_key:       ENV['CONSUMER_KEY'],
@@ -25,5 +34,14 @@ class TwitterFetcher < Sinatra::Base
       output << fav.text
     end
     return output
+  end
+
+  get '/login' do
+    redirect to '/auth/twitter'
+  end
+
+  get '/auth/twitter/callback' do
+    session[:admin] = true
+    env['omniauth.auth']
   end
 end

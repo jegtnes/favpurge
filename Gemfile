@@ -8,3 +8,4 @@ gem 'shotgun'
 gem 'capistrano', '~> 3.2.0'
 
 gem 'dotenv'
+gem 'omniauth-twitter'
