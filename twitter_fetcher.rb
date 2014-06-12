@@ -40,6 +40,10 @@ class TwitterFetcher < Sinatra::Base
     redirect to '/auth/twitter'
   end
 
+  get '/env' do
+    ENV['RACK_ENV']
+  end
+
   get '/auth/twitter/callback' do
     session[:admin] = true
     env['omniauth.auth']
