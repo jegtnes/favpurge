@@ -19,7 +19,15 @@ set :use_sudo, false
 
 set :pty, true
 
+set :linked_files, %w{(./.env.production)}
+
 namespace :deploy do
+
+  after :linked_files, :env_setup do
+    on roles(:app), in: :sequence do
+      execute "mv #{fetch(:deploy_to)}/.env.production #{fetch(:deploy_to)}/.env"
+    end
+  end
 
   desc 'Restart application'
   task :restart do
@@ -30,5 +38,9 @@ namespace :deploy do
 
   after :publishing, :restart
 
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+    end
+  end
 
 end
