@@ -19,16 +19,9 @@ set :use_sudo, false
 
 set :pty, true
 
-set :linked_files, %w{(./.env.production)}
+set :linked_files, %w(.env)
 
 namespace :deploy do
-
-  desc 'Set up linked environment variable'
-  after :linked_files, :env_setup do
-    on roles(:app), in: :sequence do
-      execute "mv #{fetch(:deploy_to)}/.env.production #{fetch(:deploy_to)}/.env"
-    end
-  end
 
   desc 'Restart application'
   task :restart do
