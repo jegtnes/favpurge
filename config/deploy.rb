@@ -23,6 +23,7 @@ set :linked_files, %w{(./.env.production)}
 
 namespace :deploy do
 
+  desc 'Set up linked environment variable'
   after :linked_files, :env_setup do
     on roles(:app), in: :sequence do
       execute "mv #{fetch(:deploy_to)}/.env.production #{fetch(:deploy_to)}/.env"
