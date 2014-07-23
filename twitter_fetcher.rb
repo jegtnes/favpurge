@@ -31,7 +31,7 @@ class TwitterFetcher < Sinatra::Base
     output = ''
     favs = twitter_client.favorites('jegtnes', count: 100)
     favs.each do |fav|
-      output << fav.text
+      output << '<p>' + fav.text + '</p>'
     end
     return output
   end
