@@ -20,6 +20,7 @@ set :use_sudo, false
 set :pty, true
 
 set :linked_files, %w(.env)
+set :linked_dirs, %w(shared)
 
 namespace :deploy do
 
