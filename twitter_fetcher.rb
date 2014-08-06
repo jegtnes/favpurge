@@ -41,11 +41,16 @@ class TwitterFetcher < Sinatra::Base
   end
 
   get '/env' do
-    ENV['RACK_ENV']
+    env.inspect
+  end
+
+  get '/session' do
+    session.inspect
   end
 
   get '/auth/twitter/callback' do
     session[:admin] = true
-    env['omniauth.auth']
+    session[:auth] = env['omniauth.auth']
+    session[:auth].inspect
   end
 end
