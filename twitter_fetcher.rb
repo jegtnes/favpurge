@@ -48,7 +48,8 @@ class TwitterFetcher < Sinatra::Base
     favs.each do |fav|
       output << '<p>' + fav.text + '</p>'
     end
-    return output
+
+    output
   end
 
   get '/login' do
