@@ -12,73 +12,16 @@ Dotenv.load
 class TwitterFetcher < Sinatra::Base
   helpers Sinatra::Jsonp
 
-  use OmniAuth::Builder do
-    provider :twitter, ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET']
-  end
-
   configure do
     enable :sessions
-  end
+    require 'pp'
 
-  def signed_in
-    !session[:uid].nil?
-  end
-
-  twitter_client = Twitter::REST::Client.new(
-    consumer_key:       ENV['CONSUMER_KEY'],
-    consumer_secret:    ENV['CONSUMER_SECRET'],
-    oauth_token:        ENV['OAUTH_TOKEN'],
-    oauth_token_secret: ENV['OAUTH_SECRET']
-  )
-
-  before do
-    # we do not want to redirect to twitter when the path info starts
-    # with /auth/
-    pass if request.path_info =~ /^\/auth\//
-
-    # /auth/twitter is captured by omniauth:
-    # when the path info matches /auth/twitter, omniauth will redirect to twitter
-    redirect to('/auth/twitter') unless signed_in
+    use OmniAuth::Builder do
+      provider :twitter, ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET']
+    end
   end
 
   get '/' do
-    output = "<a href='/login'>Sign in with Twitter</a>"
 
-    favs = twitter_client.favorites('jegtnes', count: 100)
-    favs.each do |fav|
-      output << '<p>' + fav.text + '</p>'
-    end
-
-    output2 = "<!doctype html><html><head><title>Favpurge</title></head><body>"
-
-    output2 << "<pre>"
-    # output2 << CGI::escapeHTML(session[:stuff].inspect)
-    output2 << CGI::escapeHTML(session[:stuff]['extra']['access_token'].inspect)
-    output2 << "<br />"
-
-    return output2
-  end
-
-  get '/favs' do
-  end
-
-  get '/login' do
-    redirect to '/auth/twitter'
-  end
-
-  get '/env' do
-    env.inspect
-  end
-
-  get '/session' do
-    session[:auth].inspect
-  end
-
-  get '/auth/twitter/callback' do
-    session[:stuff] = env['omniauth.auth']
-    session[:uid] = env['omniauth.auth']['uid']
-    # this is the main endpoint to your application
-    # redirect to('/')
-    env['omniauth.auth'].inspect
   end
 end
