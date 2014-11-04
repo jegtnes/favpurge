@@ -42,14 +42,24 @@ class TwitterFetcher < Sinatra::Base
   end
 
   get '/' do
-
     output = "<a href='/login'>Sign in with Twitter</a>"
+
     favs = twitter_client.favorites('jegtnes', count: 100)
     favs.each do |fav|
       output << '<p>' + fav.text + '</p>'
     end
 
-    output
+    output2 = "<!doctype html><html><head><title>Favpurge</title></head><body>"
+
+    output2 << "<pre>"
+    # output2 << CGI::escapeHTML(session[:stuff].inspect)
+    output2 << CGI::escapeHTML(session[:stuff]['extra']['access_token'].inspect)
+    output2 << "<br />"
+
+    return output2
+  end
+
+  get '/favs' do
   end
 
   get '/login' do
@@ -65,8 +75,10 @@ class TwitterFetcher < Sinatra::Base
   end
 
   get '/auth/twitter/callback' do
+    session[:stuff] = env['omniauth.auth']
     session[:uid] = env['omniauth.auth']['uid']
     # this is the main endpoint to your application
-    redirect to('/')
+    # redirect to('/')
+    env['omniauth.auth'].inspect
   end
 end
