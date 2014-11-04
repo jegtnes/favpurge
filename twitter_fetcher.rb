@@ -32,7 +32,11 @@ class TwitterFetcher < Sinatra::Base
   end
 
   get '/' do
-    "<h1>Hi #{session[:username]}!</h1>"
+    if logged_in?
+      "<h1>Hi #{session[:username]}!</h1>"
+    else
+      '<a href="/login">Log in</a>'
+    end
   end
 
   get '/auth/twitter/callback' do
