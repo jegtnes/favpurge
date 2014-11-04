@@ -33,7 +33,7 @@ class TwitterFetcher < Sinatra::Base
 
   get '/' do
     if logged_in?
-      "<h1>Hi #{session[:username]}!</h1>"
+      "Username: #{session[:username]} <br /> Token: #{session[:oauth_token]} <br /> Secret: #{session[:oauth_secret]}"
     else
       '<a href="/login">Log in</a>'
     end
@@ -42,6 +42,8 @@ class TwitterFetcher < Sinatra::Base
   get '/auth/twitter/callback' do
     env['omniauth.auth'] ? session[:logged_in] = true : halt(401,'Not Authorized')
     session[:username] = env['omniauth.auth']['info']['name']
+    session[:oauth_token] = env['omniauth.auth']['credentials']['token']
+    session[:oauth_secret] = env['omniauth.auth']['credentials']['secret']
     redirect to '/'
   end
 
