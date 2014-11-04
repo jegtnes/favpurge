@@ -21,7 +21,28 @@ class TwitterFetcher < Sinatra::Base
     end
   end
 
-  get '/' do
+  helpers do
+    def logged_in?
+      session[:logged_in]
+    end
+  end
 
+  get '/login' do
+    redirect to("/auth/twitter")
+  end
+
+  get '/auth/twitter/callback' do
+    env['omniauth.auth'] ? session[:logged_in] = true : halt(401,'Not Authorized')
+    session[:username] = env['omniauth.auth']['info']['name']
+    "<h1>Hi #{session[:username]}!</h1>"
+  end
+
+  get '/auth/failure' do
+    params[:message]
+  end
+
+  get '/logout' do
+    session[:logged_in] = nil
+    "You are now logged out"
   end
 end
