@@ -31,10 +31,14 @@ class TwitterFetcher < Sinatra::Base
     redirect to("/auth/twitter")
   end
 
+  get '/' do
+    "<h1>Hi #{session[:username]}!</h1>"
+  end
+
   get '/auth/twitter/callback' do
     env['omniauth.auth'] ? session[:logged_in] = true : halt(401,'Not Authorized')
     session[:username] = env['omniauth.auth']['info']['name']
-    "<h1>Hi #{session[:username]}!</h1>"
+    redirect to '/'
   end
 
   get '/auth/failure' do
