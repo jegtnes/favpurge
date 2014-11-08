@@ -33,7 +33,21 @@ class TwitterFetcher < Sinatra::Base
 
   get '/' do
     if logged_in?
-      "Username: #{session[:username]} <br /> Token: #{session[:oauth_token]} <br /> Secret: #{session[:oauth_secret]}"
+      @client = Twitter::REST::Client.new do |config|
+        config.consumer_key        = ENV['CONSUMER_KEY']
+        config.consumer_secret     = ENV['CONSUMER_SECRET']
+        config.access_token        = session[:oauth_token]
+        config.access_token_secret = session[:oauth_secret]
+      end
+
+      output = "<h1>#{session[:username]}' favorites</h1>"
+
+      favs = client.favorites(count: 100)
+      favs.each do |fav|
+        output << '<p>' + fav.text + '</p>'
+      end
+
+      output
     else
       '<a href="/login">Log in</a>'
     end
