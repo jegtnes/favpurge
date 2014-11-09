@@ -39,3 +39,28 @@ namespace :deploy do
   end
 
 end
+
+namespace :npm do
+  task :install do
+    on roles :app do
+      within release_path do
+        execute :npm, :install
+      end
+    end
+  end
+end
+
+namespace :gulp do
+  task :build do
+    on roles :app do
+      within release_path do
+        with path: "#{release_path}/node_modules/.bin:$PATH" do
+          execute :gulp, :build
+        end
+      end
+    end
+  end
+end
+
+after "deploy:updating", "npm:install"
+after "deploy:updating", "gulp:build"
