@@ -48,7 +48,7 @@ class TwitterFetcher < Sinatra::Base
     if logged_in?
       erb :index, :layout => :layout
     else
-      '<a href="/login">Log in</a>'
+      erb '<a href="/login">Log in</a>', :layout => :layout
     end
   end
 
