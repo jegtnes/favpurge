@@ -1,7 +1,15 @@
 @import "lib/normalize";
 
-
 body {
   margin: 1em auto;
   max-width: 40em;
+}
+
+.favorites {
+  list-style-type: none;
+  padding: 0;
+}
+
+.favorites__favorite {
+  margin-bottom: 1em;
 }

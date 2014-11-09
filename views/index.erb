@@ -1,9 +1,7 @@
-<% output = "<h1>#{session[:username]}' favorites</h1>"
-
-favs = client.favorites(count: 100)
-favs.each do |fav|
-  output << '<p>' + fav.text + '</p>'
-end
-%>
-
-<div><%= output %>
+<h1><%= session[:username]%>' favorites</h1>
+<ul class="favorites">
+<% favs = client.favorites(count: 100)
+favs.each do |fav| %>
+  <li class="favorites__favorite"><%= fav.text %></li>
+<% end %>
+</ul>
