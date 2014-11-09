@@ -44,7 +44,7 @@ namespace :npm do
   task :install do
     on roles :app do
       within release_path do
-        execute :npm, :install
+        execute "/home/ajms/.nvm/v0.10.26/lib/node_modules/npm install"
       end
     end
   end
