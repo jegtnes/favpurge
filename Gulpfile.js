@@ -1,15 +1,17 @@
 var gulp = require('gulp');
 
-// var rename = require('gulp-rename');
 // var cmq = require('gulp-combine-media-queries');
 // var uncss = require('gulp-uncss');
 // var cssmin = require('gulp-cssmin');
 
+var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var livereload = require('gulp-livereload');
 var changed = require('gulp-changed');
+var concat = require('gulp-concat');
 var concatSourcemap = require('gulp-concat-sourcemap');
 var imagemin = require('gulp-imagemin');
+var uglify = require('gulp-uglify');
 
 var paths = {
   scripts: 'ui/js/**/*.js',
@@ -27,11 +29,28 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('public/assets/css'));
 });
 
+gulp.task('styles-build', function() {
+  return gulp.src(paths.styles)
+    .pipe(sass({
+      errLogToConsole: true,
+      outputStyle: 'compressed'
+    }))
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('public/assets/css'));
+});
+
 gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
     .pipe(concatSourcemap('scripts.js', {
       sourcesContent: true
     }))
+    .pipe(gulp.dest('public/assets/js'));
+});
+
+gulp.task('scripts-build', function() {
+  return gulp.src(paths.scripts)
+    .pipe(concat('scripts.min.js'))
+    .pipe(uglify())
     .pipe(gulp.dest('public/assets/js'));
 });
 
@@ -59,3 +78,5 @@ gulp.task('watch', function() {
 
 // The default task (called when you run `gulp` from cli)
 gulp.task('default', ['styles', 'scripts', 'images']);
+
+gulp.task('build', ['styles-build', 'scripts-build', 'images']);
