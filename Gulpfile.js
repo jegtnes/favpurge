@@ -24,7 +24,7 @@ gulp.task('styles', function() {
       sourceComments: 'map',
       outputStyle: 'expanded'
     }))
-    .pipe(gulp.dest('/public/assets/css'));
+    .pipe(gulp.dest('public/assets/css'));
 });
 
 gulp.task('scripts', function() {
@@ -32,7 +32,7 @@ gulp.task('scripts', function() {
     .pipe(concatSourcemap('scripts.js', {
       sourcesContent: true
     }))
-    .pipe(gulp.dest('/public/assets/js'));
+    .pipe(gulp.dest('public/assets/js'));
 });
 
 gulp.task('images', function() {
@@ -42,7 +42,7 @@ gulp.task('images', function() {
       interlaced: true,
       optimizationLevel: 9
     }))
-    .pipe(gulp.dest('/public/assets/img'));
+    .pipe(gulp.dest('public/assets/img'));
 });
 
 gulp.task('watch', function() {

@@ -19,3 +19,5 @@ doc/
 
 .env*
 node_modules
+!.gitkeep
+public/assets/*
