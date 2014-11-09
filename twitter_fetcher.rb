@@ -46,15 +46,7 @@ class TwitterFetcher < Sinatra::Base
 
   get '/' do
     if logged_in?
-
-      output = "<h1>#{session[:username]}' favorites</h1>"
-
-      favs = client.favorites(count: 100)
-      favs.each do |fav|
-        output << '<p>' + fav.text + '</p>'
-      end
-
-      output
+      erb :index, :layout => :layout
     else
       '<a href="/login">Log in</a>'
     end
