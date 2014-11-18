@@ -52,6 +52,10 @@ class TwitterFetcher < Sinatra::Base
     end
   end
 
+  get '/fav/:fav' do
+    "Fav number #{params[:fav]}"
+  end
+
   get '/auth/twitter/callback' do
     env['omniauth.auth'] ? session[:logged_in] = true : halt(401,'Not Authorized')
     session[:username] = env['omniauth.auth']['info']['name']
