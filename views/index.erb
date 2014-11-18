@@ -2,6 +2,9 @@
 <ul class="favorites">
 <% favs = client.favorites(count: 100)
 favs.each do |fav| %>
-  <li class="favorites__favorite"><%= fav.text.gsub(/\n/, '<br/>') %></li>
+  <li class="favorites__favorite">
+    <p><%= fav.text.gsub(/\n/, '<br/>') %></p>
+    <a href="/fav/<%= fav.id %>">View</a>
+  </li>
 <% end %>
 </ul>

@@ -53,7 +53,7 @@ class TwitterFetcher < Sinatra::Base
   end
 
   get '/fav/:fav' do
-    "Fav number #{params[:fav]}"
+    client.status(params[:fav]).text
   end
 
   get '/auth/twitter/callback' do
