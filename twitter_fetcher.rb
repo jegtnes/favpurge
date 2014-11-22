@@ -14,7 +14,7 @@ class TwitterFetcher < Sinatra::Base
 
   configure do
     enable :sessions
-    require 'pp'
+    enable :method_override
 
     use OmniAuth::Builder do
       provider :twitter, ENV['CONSUMER_KEY'], ENV['CONSUMER_SECRET']
@@ -54,6 +54,11 @@ class TwitterFetcher < Sinatra::Base
 
   get '/fav/:fav' do
     client.status(params[:fav]).text
+  end
+
+  delete '/fav/:fav' do
+    client.unfavorite params[:fav]
+    "Unfavourited this tweet. Goodbye."
   end
 
   get '/auth/twitter/callback' do

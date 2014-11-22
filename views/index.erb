@@ -5,6 +5,10 @@ favs.each do |fav| %>
   <li class="favorites__favorite">
     <p><%= fav.text.gsub(/\n/, '<br/>') %></p>
     <a href="/fav/<%= fav.id %>">View</a>
+    <form action="/fav/<%= fav.id %>" method="post">
+      <input name="_method" type="hidden" value="delete" />
+      <input type="submit" value="Delete tweet" />
+    </form>
   </li>
 <% end %>
 </ul>
