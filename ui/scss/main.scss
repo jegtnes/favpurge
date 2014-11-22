@@ -1,15 +1,5 @@
 @import "lib/normalize";
+@import "global/scaffolding";
 
-body {
-  margin: 1em auto;
-  max-width: 40em;
-}
-
-.favorites {
-  list-style-type: none;
-  padding: 0;
-}
-
-.favorites__favorite {
-  margin-bottom: 1em;
-}
+@import "patterns/buttons";
+@import "patterns/favorites";
